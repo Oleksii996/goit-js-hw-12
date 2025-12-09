@@ -1,10 +1,12 @@
 /* 
-У файлі render-functions.js створи екземпляр SimpleLightbox для роботи з модальним вікном та зберігай функції для відображення елементів інтерфейсу:
+функції для відображення елементів інтерфейсу:
 
-//createGallery(images). Ця функція повинна приймати масив images, створювати HTML-розмітку для галереї, додавати її в контейнер галереї та викликати метод екземпляра SimpleLightbox refresh(). Нічого не повертає.
-//clearGallery(). Ця функція нічого не приймає та повинна очищати вміст контейнера галереї. Нічого не повертає.
-//showLoader(). Ця функція нічого не приймає, повинна додавати клас для відображення лоадера. Нічого не повертає.
-//hideLoader(). Ця функція нічого не приймає, повинна прибирати клас для відображення лоадера. Нічого не повертає. 
+createGallery(images).
+clearGallery().
+showLoader().
+hideLoader().
+showLoadMoreButton().
+hideLoadMoreButton().
 */
 
 // SimpleLightbox
@@ -12,7 +14,8 @@ import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const galleryContainer = document.querySelector('.gallery');
-const loaderElement = document.querySelector('.loader'); // очікується елемент для лоадера
+const loaderElement = document.querySelector('.loader');
+const loadMoreBtn = document.querySelector('.load-more'); // + додаєм кнопку
 
 // Ініціалізація SimpleLightbox для селектора посилань у галереї
 const lightbox = new SimpleLightbox('.gallery a', {
@@ -55,34 +58,27 @@ export function createGallery(images) {
     )
     .join('');
 
-  galleryContainer.insertAdjacentHTML('beforeend', markup); // розмітка
-
-  lightbox.refresh(); // скид
+  galleryContainer.insertAdjacentHTML('beforeend', markup);
+  lightbox.refresh();
 }
 
 // сховати галерею
 export function clearGallery() {
-  if (!galleryContainer) return; //
   galleryContainer.innerHTML = '';
 }
 
 // показати/сховати лоадер
 export function showLoader() {
-  if (!loaderElement) return;
-  loaderElement.classList.add('is-loading');
+  loaderElement?.classList.add('is-loading');
 }
 export function hideLoader() {
-  if (!loaderElement) return;
-  loaderElement.classList.remove('is-loading');
+  loaderElement?.classList.remove('is-loading');
 }
 
 // показати/сховати кнопку "більше"
 export function showLoadMoreButton() {
-  if (!loadMoreBtn) return;
-  loadMoreBtn.hidden = false;
+  loadMoreBtn?.removeAttribute('hidden');
 }
-
 export function hideLoadMoreButton() {
-  if (!loadMoreBtn) return;
-  loadMoreBtn.hidden = true;
+  loadMoreBtn?.setAttribute('hidden', '');
 }

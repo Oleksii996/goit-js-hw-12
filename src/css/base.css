@@ -57,6 +57,7 @@ body {
 
 .load-more {
   margin: auto;
+  margin-bottom: 20px;
 
   width: 150px;
   height: 40px;

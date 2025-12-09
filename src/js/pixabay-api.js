@@ -11,15 +11,15 @@ const PIXABAY_API_KEY = '15998854-73128a3946d29211178091fd8'; // мій ключ
 const BASE_URL = 'https://pixabay.com/api/'; //база
 
 //функція на експорт
-export async function getImagesByQuery(query) {
-  //список параметрів (підключатиметься за базовим юрл)
+export async function getImagesByQuery(query, page = 1) {
   const params = {
     key: PIXABAY_API_KEY,
     q: query,
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: true,
-    per_page: 12,
+    per_page: 15,
+    page: page,
   };
 
   const response = await axios.get(BASE_URL, { params }); //,база + параметри

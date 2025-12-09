@@ -18,10 +18,10 @@ export async function getImagesByQuery(query, page = 1) {
     image_type: 'photo',
     orientation: 'horizontal',
     safesearch: true,
-    per_page: 15,
-    page: page,
+    page,
+    per_page: 15, //кількість зображень
   };
 
-  const response = await axios.get(BASE_URL, { params }); //,база + параметри
-  return response.data; //повертати значення властивості data з отриманої відповіді..... ТЗ
+  const response = await axios.get(BASE_URL, { params });
+  return response.data;
 }

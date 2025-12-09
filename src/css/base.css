@@ -48,7 +48,8 @@ body {
   width: 91px;
 
   color: #ffffff;
-  font-size: large;
+  font-size: 16px;
+  font-weight: 500;
   background-color: rgba(78, 117, 255, 1);
   border-radius: 8px;
   border: 0;
@@ -61,7 +62,8 @@ body {
   height: 40px;
 
   color: #ffffff;
-  font-size: large;
+  font-size: 16px;
+  font-weight: 500;
   background-color: rgba(78, 117, 255, 1);
   border-radius: 8px;
   border: 0;

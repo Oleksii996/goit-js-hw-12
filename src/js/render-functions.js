@@ -20,7 +20,7 @@ const lightbox = new SimpleLightbox('.gallery a', {
   captionDelay: 250,
 });
 
-//функція на експорт у main.js
+// показати галерею
 export function createGallery(images) {
   const markup = images
     .map(
@@ -60,19 +60,29 @@ export function createGallery(images) {
   lightbox.refresh(); // скид
 }
 
-//Очищає вміст контейнера галереї
+// сховати галерею
 export function clearGallery() {
   if (!galleryContainer) return; //
   galleryContainer.innerHTML = '';
 }
 
-//на експорт у main у main.js - loader Індикатор завантаження
+// показати/сховати лоадер
 export function showLoader() {
   if (!loaderElement) return;
   loaderElement.classList.add('is-loading');
 }
-
 export function hideLoader() {
   if (!loaderElement) return;
   loaderElement.classList.remove('is-loading');
+}
+
+// показати/сховати кнопку "більше"
+export function showLoadMoreButton() {
+  if (!loadMoreBtn) return;
+  loadMoreBtn.hidden = false;
+}
+
+export function hideLoadMoreButton() {
+  if (!loadMoreBtn) return;
+  loadMoreBtn.hidden = true;
 }

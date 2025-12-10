@@ -21,7 +21,7 @@ const form = document.querySelector('.form');
 const input = document.querySelector('input[name="search-text"]');
 const loadMoreBtn = document.querySelector('.load-more'); //даю змінну на кнопку !!!
 
-// Глобальні змінні
+// Глобальні змінні для пагінації
 let currentQuery = '';
 let currentPage = 1;
 const PER_PAGE = 15; // кількість зображень за один запит
@@ -36,6 +36,11 @@ async function onSearch(e) {
 
   currentQuery = input.value.trim();
   currentPage = 1;
+
+  // Порожнє поле... валідація
+  if (!currentQuery) {
+    return;
+  }
 
   clearGallery();
   hideLoadMoreButton();
@@ -57,7 +62,6 @@ async function onSearch(e) {
     }
   } finally {
     hideLoader();
-    form.reset();
   }
 }
 //#endregion
@@ -65,7 +69,7 @@ async function onSearch(e) {
 //#region Друга функція дозавантаження
 async function onLoadMore() {
   // Сховати кнопку та показати лоадер
-  loadMoreBtn.hidden = true;
+  hideLoadMoreButton();
   showLoader();
 
   currentPage++;
@@ -75,7 +79,6 @@ async function onLoadMore() {
     const hits = Array.isArray(data?.hits) ? data.hits : [];
 
     if (hits.length === 0) {
-      hideLoader();
       iziToast.info({
         message: "We're sorry, but you've reached the end of search results.",
         position: 'topRight',
@@ -85,19 +88,19 @@ async function onLoadMore() {
 
     createGallery(hits);
 
-    // Прокрутка на 2 висоти картки (бібліотекаю - ТЗ)
+    // Прокрутка на 2 висоти картки
     const firstCard = document.querySelector('.gallery-item');
     if (firstCard) {
       const { height: cardHeight } = firstCard.getBoundingClientRect();
       window.scrollBy({
-        top: cardHeight * 3,
+        top: cardHeight * 2,
         behavior: 'smooth',
       });
     }
 
-    // фінал... ховається кнопка якщо немає нових даних чи повідомлення
-    if (currentPage * 15 < data.totalHits) {
-      loadMoreBtn.hidden = false;
+    // Перевірка чи показувати кнопку
+    if (currentPage * PER_PAGE < data.totalHits) {
+      showLoadMoreButton();
     } else {
       iziToast.info({
         message: "We're sorry, but you've reached the end of search results.",
@@ -105,8 +108,8 @@ async function onLoadMore() {
       });
     }
   } finally {
-    hideLoader(); // лоадер після завантаження
-    form.reset(); //скид
+    hideLoader(); // викликається лише тут
   }
 }
+
 //#endregion

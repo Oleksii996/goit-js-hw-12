@@ -9,17 +9,17 @@ import {
   clearGallery,
   showLoader,
   hideLoader,
-  showLoadMoreButton,
-  hideLoadMoreButton,
+  showLoadMoreButton, // кнопка
+  hideLoadMoreButton, // кнопка
 } from './js/render-functions.js';
 
 // iziToast
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-const form = document.querySelector('.form'); //даю змінну на форму
-const input = document.querySelector('input[name="search-text"]'); //даю змінну на інпут
-const loadMoreBtn = document.querySelector('.load-more'); //даю змінну на кнопку
+const form = document.querySelector('.form');
+const input = document.querySelector('input[name="search-text"]');
+const loadMoreBtn = document.querySelector('.load-more'); //даю змінну на кнопку !!!
 
 // Глобальні змінні
 let currentQuery = '';
@@ -30,6 +30,7 @@ let totalHits = 0;
 form.addEventListener('submit', onSearch);
 document.querySelector('.load-more').addEventListener('click', onLoadMore);
 
+//#region Перша функція провантаження
 async function onSearch(e) {
   e.preventDefault();
 
@@ -59,7 +60,9 @@ async function onSearch(e) {
     form.reset();
   }
 }
+//#endregion
 
+//#region Друга функція дозавантаження
 async function onLoadMore() {
   // Сховати кнопку та показати лоадер
   loadMoreBtn.hidden = true;
@@ -82,7 +85,7 @@ async function onLoadMore() {
 
     createGallery(hits);
 
-    // Прокрутка на 2 висоти картки
+    // Прокрутка на 2 висоти картки (бібліотекаю - ТЗ)
     const firstCard = document.querySelector('.gallery-item');
     if (firstCard) {
       const { height: cardHeight } = firstCard.getBoundingClientRect();
@@ -92,7 +95,7 @@ async function onLoadMore() {
       });
     }
 
-    // Показати кнопку, якщо ще є зображення
+    // фінал... ховається кнопка якщо немає нових даних чи повідомлення
     if (currentPage * 15 < data.totalHits) {
       loadMoreBtn.hidden = false;
     } else {
@@ -102,6 +105,8 @@ async function onLoadMore() {
       });
     }
   } finally {
-    hideLoader(); // завжди ховаємо лоадер
+    hideLoader(); // лоадер після завантаження
+    form.reset(); //скид
   }
 }
+//#endregion
